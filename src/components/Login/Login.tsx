@@ -30,7 +30,7 @@ export default function Login() {
         setErrors([false, false])
         setIsSend(true);
         try {
-            const res: any = await axios.post("https://super-web-application-backend-production.up.railway.app/login",
+            const res: any = await axios.post("https://super-web-application-backend.vercel.app/login",
                 { "user_name": name, "password": passwors },
                 {
                     headers: {

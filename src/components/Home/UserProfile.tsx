@@ -43,7 +43,7 @@ export default function UserProfile() {
                 return
             }
             setUserId(user_id)
-            const res: any = await axios.get(`https://super-web-application-backend-production.up.railway.app/users/${user_id}`);
+            const res: any = await axios.get(`https://super-web-application-backend.vercel.app/users/${user_id}`);
             setUserInfo(res.data);
             console.log(res.data);
 
@@ -82,7 +82,7 @@ export default function UserProfile() {
                 userInfo.username === "" ?
                     <div className='w-full h-screen flex flex-col items-center p-10'>
                         <CircularProgress className='text-cyan-400'></CircularProgress>
-                        <p className='text-center mt-4 text-cyan-200 text-lg '>Loading data, check your internet and wait for Railway response and run your VPN  </p>
+                        <p className='text-center mt-4 text-cyan-200 text-lg '>Loading data, check your internet and wait for Vercel response and run your VPN  </p>
                     </div>
                     :
                     <div className="w-full md:w-2/3 xl:w-1/2 px-5">

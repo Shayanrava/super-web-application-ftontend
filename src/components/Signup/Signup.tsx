@@ -58,7 +58,7 @@ export default function Signup() {
             formData.append("url", url);
         }
         try {
-            const res: any = await axios.post("https://super-web-application-backend-production.up.railway.app/users",
+            const res: any = await axios.post("https://super-web-application-backend.vercel.app/users",
                 formData,
                 {
                     headers: {

@@ -61,7 +61,7 @@ export default function EditUser({
             formData.append("url", url);
         }
         try {
-            const res: any = await axios.put(`https://super-web-application-backend-production.up.railway.app/users/${id}`,
+            const res: any = await axios.put(`https://super-web-application-backend.vercel.app/users/${id}`,
                 formData,
                 {
                     headers: {

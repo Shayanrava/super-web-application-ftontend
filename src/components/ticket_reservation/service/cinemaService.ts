@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api = axios.create({
-  baseURL: "https://super-web-application-backend-production.up.railway.app",
+  baseURL: "https://super-web-application-backend.vercel.app/",
 });
 
 export const fetchShowtimes = () => api.get("/showtimes")
