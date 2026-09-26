@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Seat, Showtime } from "../type/cinemaType"
-import {  fetchShowtimes } from "../service/cinemaService"
+import { fetchShowtimes } from "../service/cinemaService"
 import { useRouter } from "next/navigation"
 
 
@@ -11,7 +11,7 @@ const COLS = 8;
 
 export const useCinema = () => {
   const [seats, setSeats] = useState<Seat[]>([])
-  const [selectedSeat, setSelectedSeat] = useState<number>(-1)
+  const [selectedSeat, setSelectedSeat] = useState<number[]>([])
   const [selectedShowtime, setSelectedShowtime] = useState<number>(-1)
   const [showtimes, setShowtimes] = useState<Showtime[]>([])
   const [userID, setUserID] = useState<string>("-1")

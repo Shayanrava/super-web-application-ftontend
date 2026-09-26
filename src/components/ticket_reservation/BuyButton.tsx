@@ -15,8 +15,8 @@ import { reserveSeat } from "./service/cinemaService"
 interface BuyButtonProps {
   seats: Seat[]
   setSeats: React.Dispatch<React.SetStateAction<Seat[]>>
-  selectedSeat: number
-  setSelectedSeat: React.Dispatch<React.SetStateAction<number>>
+  selectedSeat: number[]
+  setSelectedSeat: React.Dispatch<React.SetStateAction<number[]>>
   selectedShowtime: number
   userID: string
 }
@@ -42,7 +42,7 @@ export const BuyButton = ({
   const [loading, setLoading] = useState(false)
 
   const handleBuy = async () => {
-    if (selectedSeat === -1 || selectedShowtime === -1) {
+    if (selectedSeat.length === 0 || selectedShowtime === -1) {
       setSuccess(false)
       setOpen(true)
       return
@@ -50,19 +50,20 @@ export const BuyButton = ({
     const formData = new FormData()
     formData.append("user_id", userID)
     formData.append("showtime_id", selectedShowtime.toString())
-    formData.append("seat_number", selectedSeat.toString())
+    formData.append("seat_number", JSON.stringify(selectedSeat))
     try {
       setLoading(true)
       const res = await reserveSeat(formData)
       if (res.status >= 200 && res.status < 300) {
         setSuccess(true)
         setOpen(true)
-        setSelectedSeat(-1)
+        setSelectedSeat([])
         setTimeout(() => {
           window.location.reload()
         }, 2500)
       } else {
         setSuccess(false)
+        setOpen(true)
       }
     } catch {
       setSuccess(false)

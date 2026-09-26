@@ -6,8 +6,8 @@ import { Seat } from "./type/cinemaType"
 interface CinemaSeatsProps {
   seats: Seat[]
   setSeats: React.Dispatch<React.SetStateAction<Seat[]>>
-  selectedSeat: number
-  setSelectedSeat: React.Dispatch<React.SetStateAction<number>>
+  selectedSeat: number[]
+  setSelectedSeat: React.Dispatch<React.SetStateAction<number[]>>
   selectedShowtime: number
   COLS: number
 }
@@ -21,19 +21,24 @@ export const CinemaSeats = ({
 
   const handleSeatClick = (index: number): void => {
     if (selectedShowtime < 0) {
-      alert("please select a showtime")
-      return
+      alert("please select a showtime");
+      return;
     }
+
     setSeats(prev =>
       prev.map((seat, i) =>
         i === index
           ? { ...seat, isSelected: !seat.isSelected }
-          : { ...seat, isSelected: false }
+          : seat
       )
-    )
-    setSelectedSeat(index + 1)
-  }
+    );
 
+    setSelectedSeat(prev =>
+      prev.includes(index + 1)
+        ? prev.filter(seat => seat !== index + 1)
+        : [...prev, index + 1]
+    );
+  };
   return (
     <div className="w-full grid grid-cols-8 gap-x-1 gap-y-4 my-10 px-2 md:w-3/4 lg:w-3/5 xl:w-1/2 sm:gap-x-4 sm:gap-y-4">
       {seats.map((seat, index) => {
