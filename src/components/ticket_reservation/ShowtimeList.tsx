@@ -80,7 +80,7 @@ export const ShowtimeList = ({
         slotProps={{ backdrop: { timeout: 500 } }}
       >
         <Fade in={open}>
-          <Box className="w-full md:w-5/6 lg:w-3/4 xl:w-3/5 h-4/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-cyan-100 px-2 overflow-y-scroll">
+          <Box className="w-full md:w-5/6 lg:w-3/4 xl:w-3/5 h-4/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-cyan-100 px-2 overflow-y-scroll rounded-lg">
 
             {showtimes.length === 0 ? (
               <Box className="w-full h-full flex justify-center items-center">
@@ -89,48 +89,87 @@ export const ShowtimeList = ({
             ) : (
               showtimes.map(showtime => {
                 return (
-                  <Box
-                    key={showtime.id}
-                    onClick={() => selectShowtime(showtime.id)}
-                    className="flex w-full my-2 px-2 py-3 border border-black rounded-md gap-3 cursor-pointer hover:bg-red-300"
-                  >
-                    <Box className="w-2/3 lg:w-1/3">
-                      <img
-                        src={showtime.image_url}
-                        className="w-full h-full object-cover rounded-md"
-                      />
+                  <>
+                    <Box
+                      key={showtime.id}
+                      onClick={() => selectShowtime(showtime.id)}
+                      className=" w-full my-2 px-2 py-3 border border-black rounded-md gap-3 cursor-pointer hover:bg-green-200  hidden md:flex"
+                    >
+                      <Box className="w-1/3">
+                        <img
+                          src={showtime.image_url}
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                      </Box>
+
+                      <Box className="flex flex-col w-2/3">
+                        <Typography className="font-bold text-center">
+                          {showtime.title} ({showtime.release_year})
+                        </Typography>
+
+                        <Typography className="text-sm my-1">
+                          {showtime.description}
+                        </Typography>
+
+                        <Typography className="text-sm my-5 text-center">
+                          Genre : {showtime.genre}
+                        </Typography>
+
+                        <Box className="flex justify-center my-1">
+                          <Rating value={Number(showtime.rating)} precision={0.1} readOnly />
+                        </Box>
+
+                        <Typography className="text-xs text-center text-gray-600">
+                          {showtime.rating_count} votes · {showtime.rating}
+                          <FavoriteIcon className="text-red-500 ml-1" />
+                        </Typography>
+
+                        <Box className="text-sm text-center mt-2 text-gray-400">
+                          Date: {showtime.date.split("T")[0]} | {showtime.start_time} - {showtime.end_time}
+                        </Box>
+                        <Box className="text-sm text-center text-gray-400">
+                          Seats: {showtime.available_seats} | Price: {showtime.price}$
+                        </Box>
+                      </Box>
                     </Box>
-
-                    <Box className="flex flex-col w-1/3 lg:w-2/3">
-                      <Typography className="font-bold text-center">
-                        {showtime.title} ({showtime.release_year})
-                      </Typography>
-
-                      <Typography className="text-sm my-1">
-                        {showtime.description}
-                      </Typography>
-
-                      <Typography className="text-sm my-5 text-center">
-                        Genre : {showtime.genre}
-                      </Typography>
-
-                      <Box className="flex justify-center my-1">
-                        <Rating value={Number(showtime.rating)} precision={0.1} readOnly />
+                    {/* ---------------------Mobile------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */}
+                    <Box
+                      key={showtime.id}
+                      onClick={() => selectShowtime(showtime.id)}
+                      className=" w-full my-2 px-2 py-3 border border-black rounded-md gap-3 cursor-pointer hover:bg-green-200  flex flex-col md:hidden"
+                    >
+                      <Box className="w-full flex justify-center">
+                        <img
+                          src={showtime.image_url}
+                          className="w-5/6 h-auto object-cover rounded-lg"
+                        />
                       </Box>
-
-                      <Typography className="text-xs text-center text-gray-600">
-                        {showtime.rating_count} votes · {showtime.rating}
-                        <FavoriteIcon className="text-red-500 ml-1" />
-                      </Typography>
-
-                      <Box className="text-sm text-center mt-2 text-gray-400">
-                        Date: {showtime.date.split("T")[0]} | {showtime.start_time} - {showtime.end_time}
-                      </Box>
-                      <Box className="text-sm text-center text-gray-400">
-                        Seats: {showtime.available_seats} | Price: {showtime.price}$
+                      <Box className="">
+                        <Typography className="font-bold text-center">
+                          {showtime.title} ({showtime.release_year})
+                        </Typography>
+                        <Typography className="text-sm my-1">
+                          {showtime.description}
+                        </Typography>
+                        <Typography className="text-sm my-5 text-center">
+                          Genre : {showtime.genre}
+                        </Typography>
+                        <Box className="text-sm text-center my-2 text-gray-400">
+                          Date: {showtime.date.split("T")[0]} | {showtime.start_time.slice(0,5)} to {showtime.end_time.slice(0,5)}
+                        </Box>
+                        <Box className="text-sm text-center text-gray-400">
+                          Available seats: {showtime.available_seats} | Price: {showtime.price}$
+                        </Box>
+                        <Box className="flex justify-center my-1">
+                          <Rating value={Number(showtime.rating)} precision={0.1} readOnly />
+                        </Box>
+                        <Typography className="text-xs text-center text-gray-600">
+                          {showtime.rating_count} votes · {showtime.rating}
+                          <FavoriteIcon className="text-red-500 ml-1" />
+                        </Typography>
                       </Box>
                     </Box>
-                  </Box>
+                  </>
                 )
               })
             )}

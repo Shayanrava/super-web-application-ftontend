@@ -101,65 +101,101 @@ export const VoteButton = ({ userID }: VoteButtonProps) => {
         slotProps={{ backdrop: { timeout: 500 } }}
       >
         <Fade in={isOpenShowtimes}>
-          <div className="w-full md:w-5/6 lg:w-3/4 xl:w-3/5 h-4/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-teal-100 flex flex-col items-center overflow-y-scroll px-2">
-            {userReserves.map(reserve => (
-              <Box
-                key={reserve.id}
-                onClick={() => handleSelectShowtime(reserve.id)}
-                className="flex w-full my-2 px-2 py-3 border border-black rounded-md gap-3 cursor-pointer hover:bg-red-300"
-              >
-                <Box className="w-1/2 lg:w-1/3">
-                  <img
-                    src={reserve.image_url}
-                    className="w-full h-full object-cover rounded-md"
-                  />
-                </Box>
-
-                <Box className="flex flex-col w-1/2 lg:w-2/3">
-                  <Typography className="font-bold text-center">
-                    {reserve.title} ({reserve.release_year})
-                  </Typography>
-
-                  <Typography className="text-sm my-1">
-                    {reserve.description}
-                  </Typography>
-
-                  <Typography className="text-sm my-5 text-center">
-                    Genre : {reserve.genre}
-                  </Typography>
-
-                  <Box className="flex justify-center my-1">
-                    <Rating value={Number(reserve.rating)} precision={0.1} readOnly />
-                  </Box>
-
-                  <Typography className="text-xs text-center text-gray-600">
-                    {reserve.rating_count} votes - {reserve.rating}
-                    <FavoriteIcon className="text-red-500 ml-1" />
-                  </Typography>
-
-                  <Box className="text-sm text-center mt-2 text-gray-400">
-                    Date: {reserve.date.split("T")[0]} | {reserve.start_time} To {reserve.end_time}
-                  </Box>
-                  <Box className="text-sm text-center text-gray-400">
-                    Price: {reserve.price}$
-                  </Box>
-
-                  <Typography className="text-xl my-10 text-center font-black ">
-                    Your seat : {reserve.seat_number}
-                  </Typography>
-                </Box>
+          <div className="w-full md:w-5/6 lg:w-3/4 xl:w-3/5 h-4/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-teal-100 flex flex-col items-center overflow-y-scroll px-2 rounded-lg">
+            {userReserves.length === 0 ? (
+              <Box className="w-full h-full flex justify-center items-center">
+                <CircularProgress />
               </Box>
-            ))
-            }
+            ) : (
+              userReserves.map(showtime => {
+                return (
+                  <>
+                    <Box
+                      key={showtime.id}
+                      onClick={() => handleSelectShowtime(showtime.id)}
+                      className=" w-full my-2 px-2 py-3 border border-black rounded-md gap-3 cursor-pointer hover:bg-green-200  hidden md:flex"
+                    >
+                      <Box className="w-1/3">
+                        <img
+                          src={showtime.image_url}
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                      </Box>
+
+                      <Box className="flex flex-col w-2/3">
+                        <Typography className="font-bold text-center">
+                          {showtime.title} ({showtime.release_year})
+                        </Typography>
+
+                        <Typography className="text-sm my-1">
+                          {showtime.description}
+                        </Typography>
+
+                        <Typography className="text-sm my-5 text-center">
+                          Genre : {showtime.genre}
+                        </Typography>
+
+                        <Box className="flex justify-center my-1">
+                          <Rating value={Number(showtime.rating)} precision={0.1} readOnly />
+                        </Box>
+
+                        <Typography className="text-xs text-center text-gray-600">
+                          {showtime.rating_count} votes · {showtime.rating}
+                          <FavoriteIcon className="text-red-500 ml-1" />
+                        </Typography>
+
+                        <Box className="text-sm text-center mt-2 text-gray-400">
+                          Date: {showtime.date.split("T")[0]} | {showtime.start_time} - {showtime.end_time}
+                        </Box>
+                      </Box>
+                    </Box>
+                    {/* ---------------------Mobile------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */}
+                    <Box
+                      key={showtime.id}
+                      onClick={() => handleSelectShowtime(showtime.id)}
+                      className=" w-full my-2 px-2 py-3 border border-black rounded-md gap-3 cursor-pointer hover:bg-green-200  flex flex-col md:hidden"
+                    >
+                      <Box className="w-full flex justify-center">
+                        <img
+                          src={showtime.image_url}
+                          className="w-5/6 h-auto object-cover rounded-lg"
+                        />
+                      </Box>
+                      <Box className="">
+                        <Typography className="font-bold text-center">
+                          {showtime.title} ({showtime.release_year})
+                        </Typography>
+                        <Typography className="text-sm my-1">
+                          {showtime.description}
+                        </Typography>
+                        <Typography className="text-sm my-5 text-center">
+                          Genre : {showtime.genre}
+                        </Typography>
+                        <Box className="text-sm text-center my-2 text-gray-400">
+                          Date: {showtime.date.split("T")[0]} | {showtime.start_time.slice(0, 5)} to {showtime.end_time.slice(0, 5)}
+                        </Box>
+                        <Box className="flex justify-center my-1">
+                          <Rating value={Number(showtime.rating)} precision={0.1} readOnly />
+                        </Box>
+                        <Typography className="text-xs text-center text-gray-600">
+                          {showtime.rating_count} votes · {showtime.rating}
+                          <FavoriteIcon className="text-red-500 ml-1" />
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </>
+                )
+              })
+            )}
           </div>
         </Fade>
       </Modal>
 
       <Modal open={isOpenVote} onClose={() => setIsOpenVote(false)} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{ backdrop: { timeout: 500 } }}>
         <Fade in={isOpenVote}>
-          <Box className="flex flex-col items-center w-full md:w-3/5 lg:w-1/2 xl:w-1/2 h-2/3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-teal-100 px-4 py-3 overflow-y-scroll">
+          <Box className="flex flex-col items-center w-full md:w-3/5 lg:w-1/2 xl:w-1/2 h-2/3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-teal-100 px-4 py-3 overflow-y-scroll rounded-lg">
             <Box className="w-full flex justify-center my-1 border border-black rounded-md">
-              <Box className="w-1/2 bg-cyan-300 rounded-md mx-1 my-1 flex flex-col items-center justify-center">
+              <Box className="w-full lg:w-1/2 bg-cyan-300 rounded-md mx-1 my-1 flex flex-col items-center justify-center">
                 <Typography className="text-center font-bold mb-3">
                   {GetReservationByID(selectedReserveID)?.title}
                 </Typography>
