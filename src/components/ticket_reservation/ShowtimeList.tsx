@@ -94,14 +94,14 @@ export const ShowtimeList = ({
                     onClick={() => selectShowtime(showtime.id)}
                     className="flex w-full my-2 px-2 py-3 border border-black rounded-md gap-3 cursor-pointer hover:bg-red-300"
                   >
-                    <Box className="w-1/2 lg:w-1/3">
+                    <Box className="w-2/3 lg:w-1/3">
                       <img
                         src={showtime.image_url}
                         className="w-full h-full object-cover rounded-md"
                       />
                     </Box>
 
-                    <Box className="flex flex-col w-1/2 lg:w-2/3">
+                    <Box className="flex flex-col w-1/3 lg:w-2/3">
                       <Typography className="font-bold text-center">
                         {showtime.title} ({showtime.release_year})
                       </Typography>
